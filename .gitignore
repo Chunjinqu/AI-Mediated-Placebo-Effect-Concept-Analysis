@@ -1,10 +1,11 @@
 __pycache__/
 *.pyc
 
-# 语料与中间结果：涉及文献版权，不上传（与原论文做法一致）
+# Corpus and intermediate outputs: publisher copyright, not uploaded
+# (same practice as the reference paper's data availability statement)
 data/pdfs/
 data/texts/
 data/output/
 
-# 模型缓存
+# model cache
 .cache/
