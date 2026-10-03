@@ -1,0 +1,10 @@
+pymupdf
+pymupdf4llm
+spacy
+sentence-transformers
+scikit-learn
+numpy
+pandas
+matplotlib
+umap-learn
+scipy
