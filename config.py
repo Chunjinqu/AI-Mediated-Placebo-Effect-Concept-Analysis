@@ -31,7 +31,7 @@ SILHOUETTE_SAMPLE = 4000   # max sentences sampled for silhouette (speed)
 
 # ---------- step05 final clustering ----------
 # After step04, fill in the chosen k here (e.g., 6), then run step05
-FINAL_K = 6
+FINAL_K = 5
 
 # ---------- General ----------
 RANDOM_SEED = 42           # fixed seed for reproducibility (reference paper practice)
