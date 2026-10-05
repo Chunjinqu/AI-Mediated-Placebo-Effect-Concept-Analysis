@@ -2,7 +2,7 @@
 """
 step06: cluster stability validation (bootstrap + leave-one-paper-out)
 Input:  data/output/embeddings.npy, clusters.csv
-Output: data/output/stability.txt (overall ARI mean, percentile interval;
+Output: data/output/stability.txt (overall ARI mean with 95% CI;
         cluster-wise Jaccard; valid iteration counts)
 Run:    python step06_stability.py
 
@@ -19,9 +19,8 @@ Canonical resampling design (Hennig-style clusterboot):
   reference solution using the Hungarian algorithm.
 - Interpretation thresholds (ARI >= 0.6, Jaccard >= 0.5) are commonly used
   rules of thumb, not formal statistical tests.
-- The interval reported is the 2.5th-97.5th percentile range of the metric
-  across resampling iterations, not a confidence interval in the
-  inferential sense.
+- The reported 95% CI is the 2.5th-97.5th percentile range of the metric
+  across resampling iterations (percentile bootstrap interval).
 """
 import numpy as np
 import pandas as pd
@@ -63,7 +62,7 @@ def summarize(tag, aris, all_jac, k, lines):
     lo, hi = np.percentile(aris, [2.5, 97.5])
     lines.append(f"[{tag}] valid iterations = {len(aris)}")
     lines.append(f"[{tag}] mean ARI = {aris.mean():.2f}, "
-                 f"2.5th-97.5th percentile [{lo:.2f}, {hi:.2f}]")
+                 f"95% CI [{lo:.2f}, {hi:.2f}]")
     jac = np.nanmean(np.asarray(all_jac, dtype=float), axis=0)
     lines.append(f"[{tag}] cluster-wise Jaccard = "
                  + ", ".join(f"C{i}={v:.2f}" for i, v in enumerate(jac)))
