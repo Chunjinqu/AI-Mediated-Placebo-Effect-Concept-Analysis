@@ -14,9 +14,9 @@ Canonical resampling design (Hennig-style clusterboot):
   (nearest centroid). Agreement metrics are therefore always computed on
   the same fixed comparison set: the full original corpus. This gives
   Jaccard = 0 an unambiguous meaning: the original cluster dissolved.
-- ARI and cluster-wise Jaccard are computed after aligning the arbitrary
-  K-means labels of the refit solution to the original solution with the
-  Hungarian algorithm.
+ - ARI is invariant to cluster-label permutation and is computed directly.
+  Cluster-wise Jaccard is computed after matching refit clusters to the
+  reference solution using the Hungarian algorithm.
 - Interpretation thresholds (ARI >= 0.6, Jaccard >= 0.5) are commonly used
   rules of thumb, not formal statistical tests.
 - The interval reported is the 2.5th-97.5th percentile range of the metric
