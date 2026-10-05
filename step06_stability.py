@@ -2,8 +2,8 @@
 """
 step06: cluster stability validation (bootstrap + leave-one-paper-out)
 Input:  data/output/embeddings.npy, clusters.csv
-Output: data/output/stability.txt (overall ARI mean with 95% CI;
-        cluster-wise Jaccard; valid iteration counts)
+Output: data/output/stability.txt (overall ARI mean/median with 95% CI
+        and IQR; cluster-wise Jaccard mean/median; valid iteration counts)
 Run:    python step06_stability.py
 
 Canonical resampling design (Hennig-style clusterboot):
@@ -60,12 +60,19 @@ def summarize(tag, aris, all_jac, k, lines):
         lines.append(f"[{tag}] no valid iterations")
         return
     lo, hi = np.percentile(aris, [2.5, 97.5])
+    q1, q3 = np.percentile(aris, [25, 75])
     lines.append(f"[{tag}] valid iterations = {len(aris)}")
     lines.append(f"[{tag}] mean ARI = {aris.mean():.2f}, "
                  f"95% CI [{lo:.2f}, {hi:.2f}]")
-    jac = np.nanmean(np.asarray(all_jac, dtype=float), axis=0)
+    lines.append(f"[{tag}] median ARI = {np.median(aris):.2f}, "
+                 f"IQR [{q1:.2f}, {q3:.2f}]")
+    jac_arr = np.asarray(all_jac, dtype=float)
+    jac = np.nanmean(jac_arr, axis=0)
     lines.append(f"[{tag}] cluster-wise Jaccard = "
                  + ", ".join(f"C{i}={v:.2f}" for i, v in enumerate(jac)))
+    jac_med = np.nanmedian(jac_arr, axis=0)
+    lines.append(f"[{tag}] cluster-wise Jaccard (median) = "
+                 + ", ".join(f"C{i}={v:.2f}" for i, v in enumerate(jac_med)))
 
 
 def main():
