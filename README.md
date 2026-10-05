@@ -1,11 +1,8 @@
 # AI-Mediated Placebo Effect in Healthcare — NLP Pipeline for Concept Analysis
 
-Rodgers' evolutionary concept analysis integrated with NLP, in a dual-track
-full-corpus design (manual review and computational clustering both cover all
-included articles; findings are integrated afterwards).
+Rodgers’ evolutionary concept analysis integrated with natural language processing (NLP), using a dual-track, full-corpus design: all included articles undergo both manual concept analysis and computational clustering, followed by an integrated interpretation of the findings.
 
-Methodology replicated from: Lee et al., *npj Digital Medicine* (2026),
-DOI: 10.1038/s41746-026-03300-2.
+Methodological reference: Lee et al. npj Digital Medicine (2026). https://doi.org/10.1038/s41746-026-03300-2.
 
 ## Requirements
 
@@ -54,20 +51,16 @@ bootstrap iterations, number of representative sentences) are centralized in
   truncate reference lists and copyright/ISSN metadata lines explicitly,
   which removed ~29% of non-content sentences and prevented bibliography
   junk clusters in our corpus.
-- **Single-layer clustering**: sub-clustering is designed as data-triggered
-  (pre-registered sentence-count and stability thresholds); if the thresholds
+- **Single-layer clustering**: sub-clustering is designed as data-triggered; if the thresholds
   are not met, the single-layer solution is retained and reported as such.
 - **Bootstrap iterations**: 1000, identical to the reference paper
   (`BOOTSTRAP_ITERS` in `config.py`).
 
 ## Data availability
 
-The full-text articles analyzed in this study are not publicly available due
-to publisher copyright restrictions; they are accessible through the
-respective journals and databases. The extracted text corpora and derived
-analytical outputs (e.g., sentence embeddings and clustering results) are
-available from the corresponding author on reasonable request. Accordingly,
-`data/` is excluded from this repository via `.gitignore`.
+The full-text articles analyzed in this study are subject to the copyright and access conditions of their respective publishers and databases. Full-text PDFs and extracted full-text corpora are therefore not included in this repository.
+
+The repository provides the analysis code and configuration files. Aggregate analytical outputs and other derived materials may be shared where permitted by applicable copyright restrictions and licensing terms. Materials containing copyrighted text will not be distributed unless such sharing is legally permitted.
 
 ## Code availability
 
