@@ -41,7 +41,8 @@ BOOTSTRAP_ITERS = 1000     # 1000 bootstrap iterations, same as reference paper
 LOPO = True                # leave-one-paper-out validation
 
 # ---------- step07 representative sentences ----------
-N_TOP_SENTENCES = 30       # top-30 centroid-closest sentences per cluster
+N_TOP_SENTENCES = 80       # top-80 centroid-closest sentences per cluster
+                           # (>=5% of every cluster at k=5; reference paper used 30)
 
 # ---------- step08 UMAP ----------
 UMAP_DIMS = 2
