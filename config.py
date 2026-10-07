@@ -51,8 +51,15 @@ SUB_MIN_SIZE = 800           # only clusters with >= 800 sentences are eligible
 SUB_K_RANGE = (3, 4)         # candidate sub-cluster counts (silhouette picks)
 SUB_ARI_GATE = 0.6           # adopt only if bootstrap mean ARI >= 0.6 ...
 SUB_JACCARD_GATE = 0.5       # ... and every sub-cluster Jaccard >= 0.5
-SUB_N_TOP = 35               # representative sentences per sub-cluster
-                             # (reference paper convention)
+SUB_TOP_PROP = 0.05          # representative sentences per sub-cluster:
+                             # at least 5% of the sub-cluster (ceil)
+SUB_FALLBACK_TOP_N = 80      # if a cluster's sub-cluster solution is not
+                             # adopted, export 80 centroid-closest sentences
+                             # of the whole cluster (>5% of each concept
+                             # cluster) as the Rodgers coding basis
+SUB_RANDOM_CHECK_N = 40      # plus 40 stratified random sentences per
+                             # concept cluster (seeded), coded as a formal
+                             # saturation check of the centroid-based basis
 
 # ---------- step08 UMAP ----------
 UMAP_DIMS = 2

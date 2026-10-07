@@ -5,8 +5,6 @@ Input:  data/output/embeddings.npy, clusters.csv, sentences.csv
 Output: data/output/subclusters.csv (sentence-level sub-cluster labels)
         data/output/subcluster_stability.txt (bootstrap + LOPO per parent
         cluster, with pre-specified adoption gates)
-        data/output/subcluster_representative.csv / .md (top SUB_N_TOP
-        centroid-closest sentences per sub-cluster, with source article)
 Run:    python step06b_subcluster.py  (after step06)
 
 Pre-specified design (decided before inspection of sub-cluster results):
@@ -23,8 +21,8 @@ Pre-specified design (decided before inspection of sub-cluster results):
   mean ARI >= SUB_ARI_GATE AND every sub-cluster Jaccard >=
   SUB_JACCARD_GATE. Otherwise the single-layer solution is retained and
   the outcome is reported transparently.
-- Representative sentences: top SUB_N_TOP per sub-cluster by cosine
-  similarity to the sub-cluster centroid in the 384-dim embedding space.
+- Representative sentences per sub-cluster are generated separately by
+  step07b_subcluster_representative.py.
 """
 import numpy as np
 import pandas as pd
@@ -33,7 +31,7 @@ from sklearn.metrics import adjusted_rand_score, silhouette_score
 
 from config import (OUT_DIR, RANDOM_SEED, BOOTSTRAP_ITERS,
                     CONCEPT_CLUSTERS, SUB_MIN_SIZE, SUB_K_RANGE,
-                    SUB_ARI_GATE, SUB_JACCARD_GATE, SUB_N_TOP)
+                    SUB_ARI_GATE, SUB_JACCARD_GATE)
 from step06_stability import aligned_jaccards, summarize
 
 
@@ -137,42 +135,16 @@ def main():
             "subcluster": ref,
         }))
 
-        # representative sentences (cosine to centroid in 384-dim space)
-        for s in range(k):
-            loc = np.where(ref == s)[0]
-            e = emb_sub[loc]
-            cen = e.mean(axis=0)
-            sim = e @ cen / (np.linalg.norm(e, axis=1)
-                             * np.linalg.norm(cen))
-            take = min(SUB_N_TOP, len(loc))
-            for rank, li in enumerate(np.argsort(-sim)[:take], 1):
-                gi = idx[loc[li]]
-                rep_rows.append({
-                    "cluster": c, "subcluster": s, "rank": rank,
-                    "similarity": round(float(sim[li]), 4),
-                    "article": df["article"].iloc[gi],
-                    "text": df["text"].iloc[gi],
-                })
-
     if label_rows:
         pd.concat(label_rows).to_csv(OUT_DIR / "subclusters.csv",
                                      index=False)
-    rep = pd.DataFrame(rep_rows)
-    rep.to_csv(OUT_DIR / "subcluster_representative.csv", index=False)
-    with open(OUT_DIR / "subcluster_representative.md", "w",
-              encoding="utf-8") as f:
-        for (c, s), g in rep.groupby(["cluster", "subcluster"]):
-            f.write(f"\n## Cluster {c} / Sub-cluster {s} "
-                    f"(top {len(g)})\n\n")
-            for _, r in g.iterrows():
-                f.write(f"{r['rank']}. [{r['article']}] {r['text']}\n\n")
 
     report = "\n".join(lines)
     print("\n" + report)
     (OUT_DIR / "subcluster_stability.txt").write_text(report,
                                                       encoding="utf-8")
     print(f"\nSaved to {OUT_DIR / 'subcluster_stability.txt'}")
-    print("Next: run step07_representative.py / step08_umap.py if needed")
+    print("Next: run step07b_subcluster_representative.py")
 
 
 if __name__ == "__main__":
