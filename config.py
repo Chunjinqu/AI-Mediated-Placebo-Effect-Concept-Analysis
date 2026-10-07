@@ -41,8 +41,18 @@ BOOTSTRAP_ITERS = 1000     # 1000 bootstrap iterations, same as reference paper
 LOPO = True                # leave-one-paper-out validation
 
 # ---------- step07 representative sentences ----------
-N_TOP_SENTENCES = 80       # top-80 centroid-closest sentences per cluster
-                           # (>=5% of every cluster at k=5; reference paper used 30)
+N_TOP_SENTENCES = 30       # top-30 centroid-closest sentences per cluster
+
+# ---------- step06b sub-clustering (pre-specified, data-triggered) ----------
+# Concept-relevant clusters as interpreted from the step05 k=5 solution
+# (C2 Technology Acceptance, C3 Mental Health Chatbots, C4 GenAI/Placebo).
+CONCEPT_CLUSTERS = [2, 3, 4]
+SUB_MIN_SIZE = 800           # only clusters with >= 800 sentences are eligible
+SUB_K_RANGE = (3, 4)         # candidate sub-cluster counts (silhouette picks)
+SUB_ARI_GATE = 0.6           # adopt only if bootstrap mean ARI >= 0.6 ...
+SUB_JACCARD_GATE = 0.5       # ... and every sub-cluster Jaccard >= 0.5
+SUB_N_TOP = 35               # representative sentences per sub-cluster
+                             # (reference paper convention)
 
 # ---------- step08 UMAP ----------
 UMAP_DIMS = 2
