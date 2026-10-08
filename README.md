@@ -30,13 +30,17 @@ python -m spacy download en_core_web_sm
    → `data/output/clusters.csv`
 6. `python step06_stability.py` — bootstrap (1000 iterations) + LOPO
    stability validation → `data/output/stability.txt`
-7. `python step07_representative.py` — top-30 centroid-closest representative
-   sentences per cluster → `data/output/representative_sentences.md`
+7. `python step06b_subcluster.py` — sub-clustering of concept-relevant
+   clusters with the same stability validation and pre-specified adoption
+   gates → `data/output/subclusters.csv`, `subcluster_stability.txt`
 8. `python step08_umap.py` — UMAP visualization
    → `data/output/umap_clusters.png`
+9. `python step08b_umap_subclusters.py` — UMAP panels of the sub-cluster
+   structure within each concept-relevant cluster
+   → `data/output/umap_subclusters.png`
 
 All parameters (paths, word-count filters, model name, k range, seed,
-bootstrap iterations, number of representative sentences) are centralized in
+bootstrap iterations, sub-clustering gates) are centralized in
 `config.py`.
 
 ## Differences from the reference paper
@@ -66,4 +70,4 @@ The repository provides the analysis code and configuration files. Aggregate ana
 
 This repository contains the full set of custom scripts for all analytic
 steps: preprocessing, sentence embedding generation, clustering, stability
-validation, representative-sentence extraction, and UMAP visualization.
+validation, sub-cluster analysis, and UMAP visualization.

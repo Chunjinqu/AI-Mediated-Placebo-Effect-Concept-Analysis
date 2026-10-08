@@ -130,7 +130,7 @@ def main():
     print("Interpretation (rules of thumb, not formal tests): ARI>=0.6 "
           "suggests a stable solution; clusters with Jaccard<0.5 should be "
           "interpreted cautiously and reported in the limitations.")
-    print("Next: run step07_representative.py")
+    print("Next: run step06b_subcluster.py")
 
 
 if __name__ == "__main__":

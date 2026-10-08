@@ -21,8 +21,6 @@ Pre-specified design (decided before inspection of sub-cluster results):
   mean ARI >= SUB_ARI_GATE AND every sub-cluster Jaccard >=
   SUB_JACCARD_GATE. Otherwise the single-layer solution is retained and
   the outcome is reported transparently.
-- Representative sentences per sub-cluster are generated separately by
-  step07b_subcluster_representative.py.
 """
 import numpy as np
 import pandas as pd
@@ -144,7 +142,7 @@ def main():
     (OUT_DIR / "subcluster_stability.txt").write_text(report,
                                                       encoding="utf-8")
     print(f"\nSaved to {OUT_DIR / 'subcluster_stability.txt'}")
-    print("Next: run step07b_subcluster_representative.py")
+    print("Next: run step08_umap.py and step08b_umap_subclusters.py")
 
 
 if __name__ == "__main__":

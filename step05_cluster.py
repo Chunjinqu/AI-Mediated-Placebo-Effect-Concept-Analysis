@@ -3,7 +3,7 @@
 step05: final K-means clustering (single layer)
 Input:  data/output/embeddings.npy
 Output: data/output/clusters.csv (sentences.csv + cluster label column)
-        data/output/centroids.npy (cluster centroids, used by step07)
+        data/output/centroids.npy (cluster centroids)
 Prerequisite: set FINAL_K in config.py to the k chosen in step04
 Run:    python step05_cluster.py
 """
